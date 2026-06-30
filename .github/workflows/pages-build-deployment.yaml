@@ -37,8 +37,7 @@ jobs:
           needs: website
 
       - name: Build pkgdown site
-        run: pkgdown::build_site()
-        shell: Rscript {0}
+        run: Rscript .github/scripts/build-pkgdown.R
 
       - uses: actions/configure-pages@v5
 
