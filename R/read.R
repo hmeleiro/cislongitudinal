@@ -28,7 +28,8 @@ cis_open <- function() {
 #' @param fecha_min Minimum survey date, included. `NULL` means no lower bound.
 #' @param fecha_max Maximum survey date, included. `NULL` means no upper bound.
 #' @param estudios Optional vector of study codes.
-#' @param cols Optional character vector of columns to select.
+#' @param cols Optional tidyselect expression or character vector of columns to
+#'   select.
 #' @param keep_core_cols If `TRUE`, always include `estudio`, `fecha`, `genero`,
 #'   and `edad` when `cols` is supplied.
 #' @param collect If `TRUE`, return a tibble in memory. If `FALSE`, return a lazy
@@ -47,6 +48,8 @@ cis_open <- function() {
 #'   cols = c("estudio", "fecha", "genero", "edad", "idv", "recuerdo")
 #' )
 #'
+#' cis_read(cols = dplyr::starts_with("val_"))
+#'
 #' cis_read(fecha_min = "2020-01-01", collect = FALSE) |>
 #'   dplyr::count(estudio) |>
 #'   dplyr::collect()
@@ -57,6 +60,7 @@ cis_read <- function(fecha_min = NULL,
                      cols = NULL,
                      keep_core_cols = TRUE,
                      collect = TRUE) {
+    cols <- rlang::enquo(cols)
     cis_check_bool(keep_core_cols, "keep_core_cols")
     cis_check_bool(collect, "collect")
 
@@ -64,10 +68,6 @@ cis_read <- function(fecha_min = NULL,
     fecha_max <- cis_parse_date(fecha_max, "fecha_max")
     if (!is.null(fecha_min) && !is.null(fecha_max) && fecha_min > fecha_max) {
         cli::cli_abort("{.arg fecha_min} cannot be later than {.arg fecha_max}.")
-    }
-
-    if (!is.null(cols) && (!is.character(cols) || anyNA(cols))) {
-        cli::cli_abort("{.arg cols} must be a character vector of column names.")
     }
 
     ds <- cis_open()
@@ -97,10 +97,10 @@ cis_read <- function(fecha_min = NULL,
 }
 
 cis_selected_cols <- function(cols, keep_core_cols, available_cols) {
-    if (is.null(cols)) {
+    if (rlang::quo_is_missing(cols) || identical(rlang::quo_get_expr(cols), NULL)) {
         return(NULL)
     }
-    selected <- unique(cols)
+    selected <- cis_eval_cols(cols, available_cols)
     if (keep_core_cols) {
         selected <- unique(c(.cis_core_cols, selected))
     }
@@ -113,6 +113,36 @@ cis_selected_cols <- function(cols, keep_core_cols, available_cols) {
         ))
     }
     selected
+}
+
+cis_eval_cols <- function(cols, available_cols) {
+    expr <- rlang::quo_get_expr(cols)
+    value <- NULL
+    if (is.character(expr) || rlang::is_symbol(expr)) {
+        value <- tryCatch(
+            rlang::eval_tidy(cols),
+            error = function(e) NULL
+        )
+    }
+    if (is.character(value)) {
+        if (anyNA(value)) {
+            cli::cli_abort("{.arg cols} must not contain missing values.")
+        }
+        return(unique(value))
+    }
+
+    data <- stats::setNames(rep(list(logical()), length(available_cols)), available_cols)
+    selected <- tryCatch(
+        tidyselect::eval_select(cols, data = data, allow_rename = FALSE),
+        error = function(e) {
+            cli::cli_abort(c(
+                "Could not evaluate {.arg cols} as a tidyselect expression.",
+                "x" = conditionMessage(e),
+                "i" = "Use column names, helpers such as {.code dplyr::starts_with()}, or {.code dplyr::all_of()}."
+            ))
+        }
+    )
+    names(selected)
 }
 
 #' List available CIS columns

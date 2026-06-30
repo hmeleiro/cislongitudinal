@@ -20,7 +20,8 @@ cis_read(
 
 \item{estudios}{Optional vector of study codes.}
 
-\item{cols}{Optional character vector of columns to select.}
+\item{cols}{Optional tidyselect expression or character vector of columns to
+select.}
 
 \item{keep_core_cols}{If \code{TRUE}, always include \code{estudio}, \code{fecha}, \code{genero},
 and \code{edad} when \code{cols} is supplied.}
@@ -44,6 +45,8 @@ cis_read(
   fecha_max = "2024-12-31",
   cols = c("estudio", "fecha", "genero", "edad", "idv", "recuerdo")
 )
+
+cis_read(cols = dplyr::starts_with("val_"))
 
 cis_read(fecha_min = "2020-01-01", collect = FALSE) |>
   dplyr::count(estudio) |>

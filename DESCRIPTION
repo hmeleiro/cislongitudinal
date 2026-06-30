@@ -24,7 +24,8 @@ Imports:
     jsonlite,
     rappdirs,
     rlang,
-    tibble
+    tibble,
+    tidyselect
 Suggests:
     devtools,
     pkgdown,

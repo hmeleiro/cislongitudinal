@@ -15,7 +15,9 @@ create_test_parquet <- function(path = file.path(local_test_cache(), "cis-longit
         genero = c("Mujer", "Hombre", "Mujer"),
         edad = c(35L, 47L, 52L),
         idv = c("PSOE", "PP", "SUMAR"),
-        recuerdo = c("PSOE", "PP", "UP")
+        recuerdo = c("PSOE", "PP", "UP"),
+        val_min_1 = c(4.5, 5.2, 6.1),
+        val_min_2 = c(3.8, 4.1, 5.0)
     )
     arrow::write_parquet(df, path)
     path

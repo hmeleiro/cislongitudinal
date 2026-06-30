@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Hector Meleiro \email{hmeleiro@gmail.com}
+\strong{Maintainer}: Hector Meleiro \email{hmeleiros@gmail.com} (\href{https://orcid.org/0009-0003-4468-2197}{ORCID})
 
 }
 \keyword{internal}

@@ -7,6 +7,28 @@ test_that("cis_read includes core columns when requested", {
     expect_named(df, c("estudio", "fecha", "genero", "edad", "idv"))
 })
 
+test_that("cis_read accepts tidyselect helpers", {
+    dir <- local_test_cache()
+    create_test_parquet(file.path(dir, "cis-longitudinal.parquet"))
+
+    df <- cis_read(
+        fecha_min = "2023-01-01",
+        cols = c(dplyr::starts_with("val_min"))
+    )
+
+    expect_named(df, c("estudio", "fecha", "genero", "edad", "val_min_1", "val_min_2"))
+})
+
+test_that("cis_read accepts character vectors through all_of", {
+    dir <- local_test_cache()
+    create_test_parquet(file.path(dir, "cis-longitudinal.parquet"))
+    cols <- c("idv", "recuerdo")
+
+    df <- cis_read(cols = dplyr::all_of(cols), keep_core_cols = FALSE)
+
+    expect_named(df, cols)
+})
+
 test_that("cis_read fails with missing columns", {
     dir <- local_test_cache()
     create_test_parquet(file.path(dir, "cis-longitudinal.parquet"))
@@ -60,6 +82,6 @@ test_that("cis_info reports row counts and manifest dates when available", {
 
     info <- cis_info()
     expect_equal(info$rows, 3)
-    expect_equal(info$columns, 6)
+    expect_equal(info$columns, 8)
     expect_equal(info$manifest_updated_at, "2026-06-30T10:27:15+0200")
 })
