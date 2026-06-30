@@ -1,0 +1,37 @@
+Package: cislongitudinal
+Title: Access the CIS Longitudinal Dataset
+Version: 0.1.0
+Authors@R:
+    person("Hector", "Meleiro", email = "hmeleiros@gmail.com",
+           role = c("aut", "cre"), comment = c(ORCID = "0009-0003-4468-2197"))
+Description: Provides tools to download, cache, update, inspect, and query the
+    longitudinal Centro de Investigaciones Sociologicas (CIS) dataset published
+    by Spain Electoral Project as a Parquet file. Queries use Arrow and dplyr so
+    filters and column selection can be pushed down before collecting data into R.
+License: MIT + file LICENSE
+URL: https://github.com/hmeleiro/cislongitudinal,
+    https://cislongitudinal.spainelectoralproject.com/
+BugReports: https://github.com/hmeleiro/cislongitudinal/issues
+Depends:
+    R (>= 4.1.0)
+Imports:
+    arrow,
+    cli,
+    digest,
+    dplyr,
+    fs,
+    httr2,
+    jsonlite,
+    rappdirs,
+    rlang,
+    tibble
+Suggests:
+    devtools,
+    pkgdown,
+    roxygen2,
+    testthat (>= 3.0.0),
+    withr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3

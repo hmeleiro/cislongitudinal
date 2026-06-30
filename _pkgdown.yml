@@ -1,0 +1,29 @@
+url: https://cislongitudinal.spainelectoralproject.com/
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference]
+    right: [search, github]
+
+reference:
+  - title: Descarga y cache
+    contents:
+      - cis_download
+      - cis_update
+      - cis_path
+      - cis_available
+      - cis_cache_dir
+      - cis_clear
+  - title: Lectura y consulta
+    contents:
+      - cis_read
+      - cis_open
+      - cis_cols
+      - cis_schema
+      - cis_studies
+  - title: Informacion
+    contents:
+      - cis_manifest
+      - cis_info

@@ -1,0 +1,26 @@
+# R session
+.Rhistory
+.RData
+.Ruserdata
+
+# RStudio
+.Rproj.user/
+
+# Build/check artifacts
+*.tar.gz
+*.Rcheck/
+check/
+
+# Package docs/build output
+docs/
+Meta/
+doc/
+
+# pkgdown/cache
+_pkgdown.yml~
+pkgdown/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
