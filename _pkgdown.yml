@@ -1,5 +1,6 @@
 url: https://cislongitudinal.spainelectoralproject.com/
 template:
+  package: spainelectoraltheme
   bootstrap: 5
 
 navbar:
@@ -27,3 +28,14 @@ reference:
     contents:
       - cis_manifest
       - cis_info
+
+footer:
+  structure:
+    left: [developed_by, sep_branding]
+    right: [license, built_with]
+  components:
+    sep_branding: >
+      <span class="sep-footer-branding">&#9670; Part of
+      <a href="https://spainelectoralproject.com">Spain Electoral Project</a></span>
+    license: >
+      Licenciado bajo <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a>.
