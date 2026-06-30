@@ -1,5 +1,9 @@
 # cislongitudinal
 
+[![R-CMD-check](https://github.com/hmeleiro/cislongitudinal/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hmeleiro/cislongitudinal/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://img.shields.io/badge/CRAN-not%20on%20CRAN%20yet-lightgrey.svg)](https://CRAN.R-project.org/package=cislongitudinal)
+[![Spain Electoral Project](https://img.shields.io/badge/Spain%20Electoral-Project-red?style=flat-square)](https://spainelectoralproject.com)
+
 `cislongitudinal` lets you download, cache, update, inspect, and query the
 longitudinal CIS dataset published by Spain Electoral Project as a Parquet file.
 The package keeps the data outside your project directory and uses Arrow so
